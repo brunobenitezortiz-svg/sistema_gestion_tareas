@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 
 class Board(models.Model):
@@ -67,3 +68,19 @@ class Card(models.Model):
 
     def __str__(self):
         return self.title
+
+    @property
+    def due_status(self):
+        if not self.due_date:
+            return 'Sin fecha límite'
+
+        today = timezone.now().date()
+
+        if self.due_date < today:
+            return 'Vencida'
+        elif self.due_date == today:
+            return 'Vence hoy'
+        else:
+            return 'En tiempo'
+    
+    

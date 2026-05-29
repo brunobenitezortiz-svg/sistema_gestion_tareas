@@ -61,7 +61,8 @@
                         {% else %}
                             Sin fecha límite
                         {% endif %}
-
+                        <br>
+                        Estado: {{ card.due_status }}
                         <br>
                         <a href="{% url 'edit_card' card.id %}">Editar</a>
                         |
