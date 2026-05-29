@@ -1,65 +1,115 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Editar tarjeta</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-    <h1>Editar tarjeta</h1>
+{% block title %}Editar tarjeta{% endblock %}
 
-    <form method="POST">
-        {% csrf_token %}
+{% block content %}
 
-        <label>Título:</label>
-        <br>
-        <input type="text" name="title" value="{{ card.title }}" required>
+<div class="card shadow-sm">
+    <div class="card-body">
 
-        <br><br>
+        <h1 class="mb-4">Editar tarjeta</h1>
 
-        <label>Descripción:</label>
-        <br>
-        <textarea name="description">{{ card.description }}</textarea>
+        <form method="POST">
+            {% csrf_token %}
 
-        <br><br>
+            <div class="mb-3">
+                <label class="form-label">Título</label>
 
-        <label>Asignar a:</label>
-        <br>
-        <select name="assigned_to">
-            <option value="">Sin asignar</option>
-
-            {% for user in users %}
-                <option value="{{ user.id }}"
-                    {% if card.assigned_to and card.assigned_to.id == user.id %}
-                        selected
-                    {% endif %}
+                <input
+                    type="text"
+                    name="title"
+                    value="{{ card.title }}"
+                    class="form-control"
+                    required
                 >
-                    {{ user.username }}
-                </option>
-            {% endfor %}
-        </select>
+            </div>
 
-        <br><br>
-        <label>Prioridad:</label>
-<br>
-<select name="priority">
-    <option value="alta" {% if card.priority == 'alta' %}selected{% endif %}>Alta</option>
-    <option value="media" {% if card.priority == 'media' %}selected{% endif %}>Media</option>
-    <option value="baja" {% if card.priority == 'baja' %}selected{% endif %}>Baja</option>
-</select>
+            <div class="mb-3">
+                <label class="form-label">Descripción</label>
 
-<br><br>
-<label>Fecha límite:</label>
-<br>
-<input type="date" name="due_date" value="{{ card.due_date|date:'Y-m-d' }}">
+                <textarea
+                    name="description"
+                    class="form-control"
+                    rows="3"
+                >{{ card.description }}</textarea>
+            </div>
 
-<br><br>
-        <button type="submit">Guardar cambios</button>
-    </form>
+            <div class="mb-3">
+                <label class="form-label">Asignar a</label>
 
-    <br>
+                <select name="assigned_to" class="form-select">
 
-    <a href="{% url 'board_detail' card.task_list.board.id %}">Volver</a>
+                    <option value="">Sin asignar</option>
 
-</body>
-</html>
+                    {% for user in users %}
+                        <option
+                            value="{{ user.id }}"
+                            {% if card.assigned_to and card.assigned_to.id == user.id %}
+                                selected
+                            {% endif %}
+                        >
+                            {{ user.username }}
+                        </option>
+                    {% endfor %}
+
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Prioridad</label>
+
+                <select name="priority" class="form-select">
+
+                    <option value="alta"
+                        {% if card.priority == 'alta' %}
+                            selected
+                        {% endif %}
+                    >
+                        Alta
+                    </option>
+
+                    <option value="media"
+                        {% if card.priority == 'media' %}
+                            selected
+                        {% endif %}
+                    >
+                        Media
+                    </option>
+
+                    <option value="baja"
+                        {% if card.priority == 'baja' %}
+                            selected
+                        {% endif %}
+                    >
+                        Baja
+                    </option>
+
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Fecha límite</label>
+
+                <input
+                    type="date"
+                    name="due_date"
+                    value="{{ card.due_date|date:'Y-m-d' }}"
+                    class="form-control"
+                >
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                Guardar cambios
+            </button>
+
+            <a href="{% url 'board_detail' card.task_list.board.id %}"
+               class="btn btn-secondary">
+                Volver
+            </a>
+
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}

@@ -1,41 +1,32 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Editar tablero</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-    <h1>Editar tablero</h1>
+{% block title %}Editar tablero{% endblock %}
 
-    <form method="POST">
+{% block content %}
 
-        {% csrf_token %}
+<div class="card shadow-sm">
+    <div class="card-body">
 
-        <label>Título:</label>
-        <br>
+        <h1 class="mb-4">Editar tablero</h1>
 
-        <input
-            type="text"
-            name="title"
-            value="{{ board.title }}"
-            required
-        >
+        <form method="POST">
+            {% csrf_token %}
 
-        <br><br>
+            <div class="mb-3">
+                <label class="form-label">Título:</label>
+                <input type="text" name="title" value="{{ board.title }}" class="form-control" required>
+            </div>
 
-        <label>Descripción:</label>
-        <br>
+            <div class="mb-3">
+                <label class="form-label">Descripción:</label>
+                <textarea name="description" class="form-control">{{ board.description }}</textarea>
+            </div>
 
-        <textarea name="description">{{ board.description }}</textarea>
+            <button type="submit" class="btn btn-primary">Guardar cambios</button>
+            <a href="{% url 'home' %}" class="btn btn-secondary">Volver</a>
+        </form>
 
-        <br><br>
+    </div>
+</div>
 
-        <button type="submit">
-            Guardar cambios
-        </button>
-
-    </form>
-
-</body>
-</html>
+{% endblock %}

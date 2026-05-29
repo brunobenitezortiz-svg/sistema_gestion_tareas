@@ -1,61 +1,72 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Crear tarjeta</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-    <h1>Nueva tarjeta</h1>
+{% block title %}Crear tarjeta{% endblock %}
 
-    <p>Lista: {{ task_list.title }}</p>
+{% block content %}
 
-    <form method="POST">
-        {% csrf_token %}
+<div class="card shadow-sm">
+    <div class="card-body">
 
-        <label>Título:</label>
-        <br>
-        <input type="text" name="title" required>
+        <h1 class="mb-4">Nueva tarjeta</h1>
 
-        <br><br>
+        <p class="text-muted">
+            Lista: {{ task_list.title }}
+        </p>
 
-        <label>Descripción:</label>
-        <br>
-        <textarea name="description"></textarea>
+        <form method="POST">
+            {% csrf_token %}
 
-        <br><br>
+            <div class="mb-3">
+                <label class="form-label">Título</label>
+                <input type="text" name="title" class="form-control" required>
+            </div>
 
-        <label>Asignar a:</label>
-        <br>
-        <select name="assigned_to">
-            <option value="">Sin asignar</option>
+            <div class="mb-3">
+                <label class="form-label">Descripción</label>
+                <textarea name="description" class="form-control" rows="3"></textarea>
+            </div>
 
-            {% for user in users %}
-                <option value="{{ user.id }}">{{ user.username }}</option>
-            {% endfor %}
-        </select>
+            <div class="mb-3">
+                <label class="form-label">Asignar a</label>
 
-        <br><br>
-        <label>Prioridad:</label>
-<br>
-<select name="priority">
-    <option value="alta">Alta</option>
-    <option value="media" selected>Media</option>
-    <option value="baja">Baja</option>
-</select>
+                <select name="assigned_to" class="form-select">
+                    <option value="">Sin asignar</option>
 
-<br><br>
-<label>Fecha límite:</label>
-<br>
-<input type="date" name="due_date">
+                    {% for user in users %}
+                        <option value="{{ user.id }}">
+                            {{ user.username }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
 
-<br><br>
-        <button type="submit">Guardar</button>
-    </form>
+            <div class="mb-3">
+                <label class="form-label">Prioridad</label>
 
-    <br>
+                <select name="priority" class="form-select">
+                    <option value="alta">Alta</option>
+                    <option value="media" selected>Media</option>
+                    <option value="baja">Baja</option>
+                </select>
+            </div>
 
-    <a href="{% url 'board_detail' task_list.board.id %}">Volver</a>
+            <div class="mb-3">
+                <label class="form-label">Fecha límite</label>
+                <input type="date" name="due_date" class="form-control">
+            </div>
 
-</body>
-</html>
+            <button type="submit" class="btn btn-primary">
+                Guardar
+            </button>
+
+            <a href="{% url 'board_detail' task_list.board.id %}"
+               class="btn btn-secondary">
+                Volver
+            </a>
+
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}

@@ -1,28 +1,38 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Editar lista</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-    <h1>Editar lista</h1>
+{% block title %}Editar lista{% endblock %}
 
-    <form method="POST">
-        {% csrf_token %}
+{% block content %}
 
-        <label>Título:</label>
-        <br>
-        <input type="text" name="title" value="{{ task_list.title }}" required>
+<div class="card shadow-sm">
+    <div class="card-body">
 
-        <br><br>
+        <h1 class="mb-4">Editar lista</h1>
 
-        <button type="submit">Guardar cambios</button>
-    </form>
+        <form method="POST">
+            {% csrf_token %}
 
-    <br>
+            <div class="mb-3">
+                <label class="form-label">Título:</label>
+                <input 
+                    type="text" 
+                    name="title" 
+                    value="{{ task_list.title }}" 
+                    class="form-control" 
+                    required
+                >
+            </div>
 
-    <a href="{% url 'board_detail' task_list.board.id %}">Volver</a>
+            <button type="submit" class="btn btn-primary">
+                Guardar cambios
+            </button>
 
-</body>
-</html>
+            <a href="{% url 'board_detail' task_list.board.id %}" class="btn btn-secondary">
+                Volver
+            </a>
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}

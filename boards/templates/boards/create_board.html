@@ -1,30 +1,32 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Crear tablero</title>
-</head>
-<body>
-    <h1>Crear tablero</h1>
+{% extends 'base.html' %}
 
-    <form method="POST">
-        {% csrf_token %}
+{% block title %}Crear tablero{% endblock %}
 
-        <label>Título:</label>
-        <input type="text" name="title" required>
+{% block content %}
 
-        <br><br>
+<div class="card shadow-sm">
+    <div class="card-body">
 
-        <label>Descripción:</label>
-        <textarea name="description"></textarea>
+        <h1 class="mb-4">Crear tablero</h1>
 
-        <br><br>
+        <form method="POST">
+            {% csrf_token %}
 
-        <button type="submit">Guardar</button>
-    </form>
+            <div class="mb-3">
+                <label class="form-label">Título:</label>
+                <input type="text" name="title" class="form-control" required>
+            </div>
 
-    <br>
+            <div class="mb-3">
+                <label class="form-label">Descripción:</label>
+                <textarea name="description" class="form-control"></textarea>
+            </div>
 
-    <a href="{% url 'home' %}">Volver</a>
-</body>
-</html>
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <a href="{% url 'home' %}" class="btn btn-secondary">Volver</a>
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}

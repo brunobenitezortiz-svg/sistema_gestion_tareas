@@ -1,23 +1,29 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Crear lista</title>
-</head>
-<body>
-    <a href="{% url 'board_detail' board.id %}">Volver</a>
+{% extends 'base.html' %}
 
-    <h1>Crear lista en {{ board.title }}</h1>
+{% block title %}Crear lista{% endblock %}
 
-    <form method="POST">
-        {% csrf_token %}
+{% block content %}
 
-        <label>Título de la lista:</label>
-        <input type="text" name="title" required>
+<div class="card shadow-sm">
+    <div class="card-body">
 
-        <br><br>
+        <h1 class="mb-4">Crear lista</h1>
 
-        <button type="submit">Guardar</button>
-    </form>
-</body>
-</html>
+        <p class="text-muted">Tablero: {{ board.title }}</p>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label class="form-label">Título de la lista:</label>
+                <input type="text" name="title" class="form-control" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <a href="{% url 'board_detail' board.id %}" class="btn btn-secondary">Volver</a>
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}

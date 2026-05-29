@@ -1,26 +1,35 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Eliminar tarjeta</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-    <h1>Eliminar tarjeta</h1>
+{% block title %}Eliminar tarjeta{% endblock %}
 
-    <p>¿Estás seguro de que deseas eliminar la tarjeta?</p>
+{% block content %}
 
-    <strong>{{ card.title }}</strong>
+<div class="card shadow-sm border-danger">
+    <div class="card-body">
 
-    <form method="POST">
-        {% csrf_token %}
-        <br><br>
-        <button type="submit">Sí, eliminar</button>
-    </form>
+        <h1 class="mb-3 text-danger">Eliminar tarjeta</h1>
 
-    <br>
+        <p>¿Estás seguro de que deseas eliminar esta tarjeta?</p>
 
-    <a href="{% url 'board_detail' card.task_list.board.id %}">Cancelar</a>
+        <h5>{{ card.title }}</h5>
 
-</body>
-</html>
+        {% if card.description %}
+            <p class="text-muted">{{ card.description }}</p>
+        {% endif %}
+
+        <form method="POST" class="mt-3">
+            {% csrf_token %}
+
+            <button type="submit" class="btn btn-danger">
+                Sí, eliminar
+            </button>
+
+            <a href="{% url 'board_detail' card.task_list.board.id %}" class="btn btn-secondary">
+                Cancelar
+            </a>
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}
