@@ -127,3 +127,39 @@ def delete_card(request, card_id):
     return render(request, 'boards/delete_card.html', {
         'card': card
     })
+
+@login_required
+def edit_board(request, board_id):
+    board = get_object_or_404(
+        Board,
+        id=board_id,
+        owner=request.user
+    )
+
+    if request.method == 'POST':
+        board.title = request.POST.get('title')
+        board.description = request.POST.get('description')
+        board.save()
+
+        return redirect('home')
+
+    return render(request, 'boards/edit_board.html', {
+        'board': board
+    })
+
+
+@login_required
+def delete_board(request, board_id):
+    board = get_object_or_404(
+        Board,
+        id=board_id,
+        owner=request.user
+    )
+
+    if request.method == 'POST':
+        board.delete()
+        return redirect('home')
+
+    return render(request, 'boards/delete_board.html', {
+        'board': board
+    })

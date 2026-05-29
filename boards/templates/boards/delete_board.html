@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Eliminar tablero</title>
+</head>
+<body>
+
+    <h1>Eliminar tablero</h1>
+
+    <p>
+        ¿Deseas eliminar el tablero?
+    </p>
+
+    <strong>
+        {{ board.title }}
+    </strong>
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <br><br>
+
+        <button type="submit">
+            Sí, eliminar
+        </button>
+
+    </form>
+
+</body>
+</html>

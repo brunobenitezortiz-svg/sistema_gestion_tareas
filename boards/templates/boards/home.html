@@ -18,15 +18,28 @@
     <ul>
     {% for board in boards %}
         <li>
-            <a href="{% url 'board_detail' board.id %}">
-                <strong>{{ board.title }}</strong>
-            </a>
 
-            {% if board.description %}
-                - {{ board.description }}
-            {% endif %}
-        </li>
-    {% empty %}
+    <a href="{% url 'board_detail' board.id %}">
+        <strong>{{ board.title }}</strong>
+    </a>
+
+    {% if board.description %}
+        - {{ board.description }}
+    {% endif %}
+
+    <br>
+
+    <a href="{% url 'edit_board' board.id %}">
+        Editar
+    </a>
+
+    |
+
+    <a href="{% url 'delete_board' board.id %}">
+        Eliminar
+    </a>
+
+</li>
         <li>No tienes tableros creados.</li>
     {% endfor %}
 </ul>
