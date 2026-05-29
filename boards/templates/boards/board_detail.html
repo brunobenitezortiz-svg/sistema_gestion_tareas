@@ -44,6 +44,14 @@
                             {{ card.description }}
                         {% endif %}
 
+                        {% if card.assigned_to %}
+                            <br>
+                            Asignado a: {{ card.assigned_to.username }}
+                        {% else %}
+                            <br>
+                            Sin asignar
+                        {% endif %}
+
                         <br>
                         <a href="{% url 'edit_card' card.id %}">Editar</a>
                         |

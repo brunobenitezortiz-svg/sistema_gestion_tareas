@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Board
 from django.shortcuts import get_object_or_404
 from .models import Board, TaskList, Card
-
+from django.contrib.auth.models import User
 
 @login_required
 def home(request):
@@ -71,9 +71,16 @@ def create_card(request, list_id):
         board__owner=request.user
     )
 
+    users = User.objects.all()
+
     if request.method == 'POST':
         title = request.POST.get('title')
         description = request.POST.get('description')
+        assigned_to_id = request.POST.get('assigned_to')
+
+        assigned_to = None
+        if assigned_to_id:
+            assigned_to = User.objects.get(id=assigned_to_id)
 
         position = task_list.cards.count()
 
@@ -81,15 +88,16 @@ def create_card(request, list_id):
             title=title,
             description=description,
             task_list=task_list,
+            assigned_to=assigned_to,
             position=position
         )
 
         return redirect('board_detail', board_id=task_list.board.id)
 
     return render(request, 'boards/create_card.html', {
-        'task_list': task_list
+        'task_list': task_list,
+        'users': users
     })
-
 @login_required
 def edit_card(request, card_id):
     card = get_object_or_404(
@@ -98,17 +106,27 @@ def edit_card(request, card_id):
         task_list__board__owner=request.user
     )
 
+    users = User.objects.all()
+
     if request.method == 'POST':
         card.title = request.POST.get('title')
         card.description = request.POST.get('description')
+
+        assigned_to_id = request.POST.get('assigned_to')
+
+        if assigned_to_id:
+            card.assigned_to = User.objects.get(id=assigned_to_id)
+        else:
+            card.assigned_to = None
+
         card.save()
 
         return redirect('board_detail', board_id=card.task_list.board.id)
 
     return render(request, 'boards/edit_card.html', {
-        'card': card
+        'card': card,
+        'users': users
     })
-
 
 @login_required
 def delete_card(request, card_id):
