@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Crear lista</title>
+</head>
+<body>
+    <a href="{% url 'board_detail' board.id %}">Volver</a>
+
+    <h1>Crear lista en {{ board.title }}</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <label>Título de la lista:</label>
+        <input type="text" name="title" required>
+
+        <br><br>
+
+        <button type="submit">Guardar</button>
+    </form>
+</body>
+</html>

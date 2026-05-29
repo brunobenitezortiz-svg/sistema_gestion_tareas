@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Crear tarjeta</title>
+</head>
+<body>
+
+    <h1>Nueva tarjeta</h1>
+
+    <p>Lista: {{ task_list.title }}</p>
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <label>Título</label>
+        <br>
+        <input type="text" name="title" required>
+
+        <br><br>
+
+        <label>Descripción</label>
+        <br>
+        <textarea name="description"></textarea>
+
+        <br><br>
+
+        <button type="submit">
+            Guardar
+        </button>
+
+    </form>
+
+</body>
+</html>

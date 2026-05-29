@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ board.title }}</title>
+</head>
+<body>
+
+    <a href="{% url 'home' %}">Volver</a>
+
+    <h1>{{ board.title }}</h1>
+
+    {% if board.description %}
+        <p>{{ board.description }}</p>
+    {% endif %}
+
+    <a href="{% url 'create_list' board.id %}">
+        Crear lista
+    </a>
+
+    <hr>
+
+    <h2>Listas</h2>
+
+    {% for task_list in lists %}
+
+        <div style="border:1px solid #ccc; padding:10px; margin-bottom:20px;">
+
+            <h3>{{ task_list.title }}</h3>
+
+            <p>Posición: {{ task_list.position }}</p>
+
+            <a href="{% url 'create_card' task_list.id %}">
+                Agregar tarjeta
+            </a>
+
+            <ul>
+
+                {% for card in task_list.cards.all %}
+
+                    <li>
+                        <strong>{{ card.title }}</strong>
+
+                            {% if card.description %}
+                                <br>
+                                {{ card.description }}
+                                {% endif %}
+
+                                <br>
+                            <a href="{% url 'edit_card' card.id %}">Editar</a>
+                            |
+                            <a href="{% url 'delete_card' card.id %}">Eliminar</a>
+                    </li>
+
+                {% empty %}
+
+                    <li>No hay tarjetas.</li>
+
+                {% endfor %}
+
+            </ul>
+
+        </div>
+
+    {% empty %}
+
+        <p>Este tablero todavía no tiene listas.</p>
+
+    {% endfor %}
+
+</body>
+</html>

@@ -2,10 +2,33 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Gestor de Tareas</title>
+    <title>Mis tableros</title>
 </head>
 <body>
-    <h1>Sistema de Gestión de Tareas</h1>
-    <p>Proyecto tipo Trello con Python y Django.</p>
+    <h1>Bienvenido, {{ request.user.username }}</h1>
+
+    <a href="{% url 'logout' %}">Cerrar sesión</a>
+
+    <hr>
+
+    <h2>Mis tableros</h2>
+
+    <a href="{% url 'create_board' %}">Crear nuevo tablero</a>
+
+    <ul>
+    {% for board in boards %}
+        <li>
+            <a href="{% url 'board_detail' board.id %}">
+                <strong>{{ board.title }}</strong>
+            </a>
+
+            {% if board.description %}
+                - {{ board.description }}
+            {% endif %}
+        </li>
+    {% empty %}
+        <li>No tienes tableros creados.</li>
+    {% endfor %}
+</ul>
 </body>
 </html>
