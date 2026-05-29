@@ -77,6 +77,7 @@ def create_card(request, list_id):
         title = request.POST.get('title')
         description = request.POST.get('description')
         assigned_to_id = request.POST.get('assigned_to')
+        priority = request.POST.get('priority')
 
         assigned_to = None
         if assigned_to_id:
@@ -89,7 +90,8 @@ def create_card(request, list_id):
             description=description,
             task_list=task_list,
             assigned_to=assigned_to,
-            position=position
+            position=position,
+            priority=priority
         )
 
         return redirect('board_detail', board_id=task_list.board.id)
@@ -111,6 +113,7 @@ def edit_card(request, card_id):
     if request.method == 'POST':
         card.title = request.POST.get('title')
         card.description = request.POST.get('description')
+        card.priority = request.POST.get('priority')
 
         assigned_to_id = request.POST.get('assigned_to')
 

@@ -40,7 +40,15 @@
         </select>
 
         <br><br>
+        <label>Prioridad:</label>
+<br>
+<select name="priority">
+    <option value="alta" {% if card.priority == 'alta' %}selected{% endif %}>Alta</option>
+    <option value="media" {% if card.priority == 'media' %}selected{% endif %}>Media</option>
+    <option value="baja" {% if card.priority == 'baja' %}selected{% endif %}>Baja</option>
+</select>
 
+<br><br>
         <button type="submit">Guardar cambios</button>
     </form>
 
