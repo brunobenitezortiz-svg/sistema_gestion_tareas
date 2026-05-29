@@ -49,6 +49,11 @@
 </select>
 
 <br><br>
+<label>Fecha límite:</label>
+<br>
+<input type="date" name="due_date" value="{{ card.due_date|date:'Y-m-d' }}">
+
+<br><br>
         <button type="submit">Guardar cambios</button>
     </form>
 

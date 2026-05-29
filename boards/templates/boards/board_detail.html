@@ -56,6 +56,13 @@
                         Prioridad: {{ card.get_priority_display }}
 
                         <br>
+                        {% if card.due_date %}
+                            Fecha límite: {{ card.due_date }}
+                        {% else %}
+                            Sin fecha límite
+                        {% endif %}
+
+                        <br>
                         <a href="{% url 'edit_card' card.id %}">Editar</a>
                         |
                         <a href="{% url 'delete_card' card.id %}">Eliminar</a>

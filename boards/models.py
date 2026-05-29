@@ -54,6 +54,11 @@ class Card(models.Model):
         default='media'
     )
 
+    due_date = models.DateField(
+        blank=True,
+        null=True
+    )
+
     position = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
 
