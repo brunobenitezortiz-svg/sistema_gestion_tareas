@@ -1,85 +1,134 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ board.title }}</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-    <a href="{% url 'home' %}">Volver</a>
+{% block title %}{{ board.title }}{% endblock %}
 
-    <h1>{{ board.title }}</h1>
+{% block content %}
 
-    {% if board.description %}
-        <p>{{ board.description }}</p>
-    {% endif %}
+<div class="d-flex justify-content-between align-items-center mb-4">
 
-    <a href="{% url 'create_list' board.id %}">Crear lista</a>
+    <div>
+        <h1>{{ board.title }}</h1>
 
-    <hr>
+        {% if board.description %}
+            <p class="text-muted">{{ board.description }}</p>
+        {% endif %}
+    </div>
 
-    <h2>Listas</h2>
+    <a href="{% url 'create_list' board.id %}" class="btn btn-primary">
+        Nueva lista
+    </a>
+
+</div>
+
+<div class="row">
 
     {% for task_list in lists %}
 
-        <div style="border:1px solid #ccc; padding:10px; margin-bottom:20px;">
+        <div class="col-md-4">
 
-            <h3>{{ task_list.title }}</h3>
+            <div class="card shadow-sm mb-4">
 
-            <a href="{% url 'edit_list' task_list.id %}">Editar lista</a>
-            |
-            <a href="{% url 'delete_list' task_list.id %}">Eliminar lista</a>
+                <div class="card-header">
 
-            <p>Posición: {{ task_list.position }}</p>
+                    <h5 class="mb-2">
+                        {{ task_list.title }}
+                    </h5>
 
-            <a href="{% url 'create_card' task_list.id %}">Agregar tarjeta</a>
+                    <a href="{% url 'edit_list' task_list.id %}"
+                       class="btn btn-warning btn-sm">
+                        Editar
+                    </a>
 
-            <ul>
-                {% for card in task_list.cards.all %}
-                    <li>
-                        <strong>{{ card.title }}</strong>
+                    <a href="{% url 'delete_list' task_list.id %}"
+                       class="btn btn-danger btn-sm">
+                        Eliminar
+                    </a>
 
-                        {% if card.description %}
-                            <br>
-                            {{ card.description }}
-                        {% endif %}
+                </div>
 
-                        {% if card.assigned_to %}
-                            <br>
-                            Asignado a: {{ card.assigned_to.username }}
-                        {% else %}
-                            <br>
-                            Sin asignar
-                        {% endif %}
+                <div class="card-body">
 
-                        <br>
-                        Prioridad: {{ card.get_priority_display }}
+                    <a href="{% url 'create_card' task_list.id %}"
+                       class="btn btn-success btn-sm mb-3">
+                        Agregar tarjeta
+                    </a>
 
-                        <br>
-                        {% if card.due_date %}
-                            Fecha límite: {{ card.due_date }}
-                        {% else %}
-                            Sin fecha límite
-                        {% endif %}
-                        <br>
-                        Estado: {{ card.due_status }}
-                        <br>
-                        <a href="{% url 'edit_card' card.id %}">Editar</a>
-                        |
-                        <a href="{% url 'delete_card' card.id %}">Eliminar</a>
-                    </li>
-                {% empty %}
-                    <li>No hay tarjetas.</li>
-                {% endfor %}
-            </ul>
+                    {% for card in task_list.cards.all %}
+
+                        <div class="card mb-3">
+
+                            <div class="card-body">
+
+                                <h6>{{ card.title }}</h6>
+
+                                {% if card.description %}
+                                    <p>{{ card.description }}</p>
+                                {% endif %}
+
+                                <p class="mb-1">
+                                    <strong>Asignado:</strong>
+
+                                    {% if card.assigned_to %}
+                                        {{ card.assigned_to.username }}
+                                    {% else %}
+                                        Sin asignar
+                                    {% endif %}
+                                </p>
+
+                                <p class="mb-1">
+                                    <strong>Prioridad:</strong>
+                                    {{ card.get_priority_display }}
+                                </p>
+
+                                <p class="mb-1">
+                                    <strong>Fecha límite:</strong>
+
+                                    {% if card.due_date %}
+                                        {{ card.due_date }}
+                                    {% else %}
+                                        Sin fecha
+                                    {% endif %}
+                                </p>
+
+                                <p class="mb-2">
+                                    <strong>Estado:</strong>
+                                    {{ card.due_status }}
+                                </p>
+
+                                <a href="{% url 'edit_card' card.id %}"
+                                   class="btn btn-warning btn-sm">
+                                    Editar
+                                </a>
+
+                                <a href="{% url 'delete_card' card.id %}"
+                                   class="btn btn-danger btn-sm">
+                                    Eliminar
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    {% empty %}
+
+                        <p class="text-muted">
+                            No hay tarjetas.
+                        </p>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
 
         </div>
 
     {% empty %}
 
-        <p>Este tablero todavía no tiene listas.</p>
+        <p>No existen listas en este tablero.</p>
 
     {% endfor %}
 
-</body>
-</html>
+</div>
+
+{% endblock %}

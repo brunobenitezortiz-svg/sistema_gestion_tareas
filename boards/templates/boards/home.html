@@ -1,60 +1,55 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Mis tableros</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-    <h1>Bienvenido, {{ request.user.username }}</h1>
+{% block title %}Mis tableros{% endblock %}
 
-    <a href="{% url 'logout' %}">
-        Cerrar sesión
-    </a>
+{% block content %}
 
-    <hr>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Mis tableros</h1>
 
-    <h2>Mis tableros</h2>
-
-    <a href="{% url 'create_board' %}">
+    <a href="{% url 'create_board' %}" class="btn btn-primary">
         Crear nuevo tablero
     </a>
+</div>
 
-    <ul>
+<div class="row">
 
-        {% for board in boards %}
+    {% for board in boards %}
 
-            <li>
+        <div class="col-md-4 mb-3">
+            <div class="card shadow-sm">
+                <div class="card-body">
 
-                <a href="{% url 'board_detail' board.id %}">
-                    <strong>{{ board.title }}</strong>
-                </a>
+                    <h5 class="card-title">
+                        {{ board.title }}
+                    </h5>
 
-                {% if board.description %}
-                    - {{ board.description }}
-                {% endif %}
+                    {% if board.description %}
+                        <p class="card-text">{{ board.description }}</p>
+                    {% endif %}
 
-                <br>
+                    <a href="{% url 'board_detail' board.id %}" class="btn btn-success btn-sm">
+                        Abrir
+                    </a>
 
-                <a href="{% url 'edit_board' board.id %}">
-                    Editar
-                </a>
+                    <a href="{% url 'edit_board' board.id %}" class="btn btn-warning btn-sm">
+                        Editar
+                    </a>
 
-                |
+                    <a href="{% url 'delete_board' board.id %}" class="btn btn-danger btn-sm">
+                        Eliminar
+                    </a>
 
-                <a href="{% url 'delete_board' board.id %}">
-                    Eliminar
-                </a>
+                </div>
+            </div>
+        </div>
 
-            </li>
+    {% empty %}
 
-        {% empty %}
+        <p>No tienes tableros creados.</p>
 
-            <li>No tienes tableros creados.</li>
+    {% endfor %}
 
-        {% endfor %}
+</div>
 
-    </ul>
-
-</body>
-</html>
+{% endblock %}
