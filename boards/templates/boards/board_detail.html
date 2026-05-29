@@ -14,9 +14,7 @@
         <p>{{ board.description }}</p>
     {% endif %}
 
-    <a href="{% url 'create_list' board.id %}">
-        Crear lista
-    </a>
+    <a href="{% url 'create_list' board.id %}">Crear lista</a>
 
     <hr>
 
@@ -28,36 +26,32 @@
 
             <h3>{{ task_list.title }}</h3>
 
+            <a href="{% url 'edit_list' task_list.id %}">Editar lista</a>
+            |
+            <a href="{% url 'delete_list' task_list.id %}">Eliminar lista</a>
+
             <p>Posición: {{ task_list.position }}</p>
 
-            <a href="{% url 'create_card' task_list.id %}">
-                Agregar tarjeta
-            </a>
+            <a href="{% url 'create_card' task_list.id %}">Agregar tarjeta</a>
 
             <ul>
-
                 {% for card in task_list.cards.all %}
-
                     <li>
                         <strong>{{ card.title }}</strong>
 
-                            {% if card.description %}
-                                <br>
-                                {{ card.description }}
-                                {% endif %}
+                        {% if card.description %}
+                            <br>
+                            {{ card.description }}
+                        {% endif %}
 
-                                <br>
-                            <a href="{% url 'edit_card' card.id %}">Editar</a>
-                            |
-                            <a href="{% url 'delete_card' card.id %}">Eliminar</a>
+                        <br>
+                        <a href="{% url 'edit_card' card.id %}">Editar</a>
+                        |
+                        <a href="{% url 'delete_card' card.id %}">Eliminar</a>
                     </li>
-
                 {% empty %}
-
                     <li>No hay tarjetas.</li>
-
                 {% endfor %}
-
             </ul>
 
         </div>

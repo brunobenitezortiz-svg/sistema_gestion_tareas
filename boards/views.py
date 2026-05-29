@@ -163,3 +163,40 @@ def delete_board(request, board_id):
     return render(request, 'boards/delete_board.html', {
         'board': board
     })
+
+@login_required
+def edit_list(request, list_id):
+    task_list = get_object_or_404(
+        TaskList,
+        id=list_id,
+        board__owner=request.user
+    )
+
+    if request.method == 'POST':
+        task_list.title = request.POST.get('title')
+        task_list.save()
+
+        return redirect('board_detail', board_id=task_list.board.id)
+
+    return render(request, 'boards/edit_list.html', {
+        'task_list': task_list
+    })
+
+
+@login_required
+def delete_list(request, list_id):
+    task_list = get_object_or_404(
+        TaskList,
+        id=list_id,
+        board__owner=request.user
+    )
+
+    board_id = task_list.board.id
+
+    if request.method == 'POST':
+        task_list.delete()
+        return redirect('board_detail', board_id=board_id)
+
+    return render(request, 'boards/delete_list.html', {
+        'task_list': task_list
+    })

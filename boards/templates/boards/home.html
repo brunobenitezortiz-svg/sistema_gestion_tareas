@@ -5,43 +5,56 @@
     <title>Mis tableros</title>
 </head>
 <body>
+
     <h1>Bienvenido, {{ request.user.username }}</h1>
 
-    <a href="{% url 'logout' %}">Cerrar sesión</a>
+    <a href="{% url 'logout' %}">
+        Cerrar sesión
+    </a>
 
     <hr>
 
     <h2>Mis tableros</h2>
 
-    <a href="{% url 'create_board' %}">Crear nuevo tablero</a>
+    <a href="{% url 'create_board' %}">
+        Crear nuevo tablero
+    </a>
 
     <ul>
-    {% for board in boards %}
-        <li>
 
-    <a href="{% url 'board_detail' board.id %}">
-        <strong>{{ board.title }}</strong>
-    </a>
+        {% for board in boards %}
 
-    {% if board.description %}
-        - {{ board.description }}
-    {% endif %}
+            <li>
 
-    <br>
+                <a href="{% url 'board_detail' board.id %}">
+                    <strong>{{ board.title }}</strong>
+                </a>
 
-    <a href="{% url 'edit_board' board.id %}">
-        Editar
-    </a>
+                {% if board.description %}
+                    - {{ board.description }}
+                {% endif %}
 
-    |
+                <br>
 
-    <a href="{% url 'delete_board' board.id %}">
-        Eliminar
-    </a>
+                <a href="{% url 'edit_board' board.id %}">
+                    Editar
+                </a>
 
-</li>
-        <li>No tienes tableros creados.</li>
-    {% endfor %}
-</ul>
+                |
+
+                <a href="{% url 'delete_board' board.id %}">
+                    Eliminar
+                </a>
+
+            </li>
+
+        {% empty %}
+
+            <li>No tienes tableros creados.</li>
+
+        {% endfor %}
+
+    </ul>
+
 </body>
 </html>
